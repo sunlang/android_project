@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context="yunnex.com.testgame.MainActivity">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="200dp"
+		android:onClick="payWithPool"
+		android:gravity="center"
+		android:text="使用连接池调用支付服务(可能是微信，也可能是支付宝)" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="200dp"
+		android:onClick="pay"
+		android:gravity="center"
+		android:text="pay" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="200dp"
+		android:onClick="close"
+		android:gravity="center"
+		android:text="关闭支付宝服务" />
+
+</LinearLayout>
