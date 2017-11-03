@@ -1,0 +1,119 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+signing {
+	required { gradle.taskGraph.hasTask("uploadArchives") }
+	sign configurations.archives
+}
+
+//allprojects {
+//	repositories {
+//		maven {
+//			url = "file://D:/mvnRepo"
+//		}
+//	}
+//}
+
+//repositories{
+//	maven{
+//		url = "file://D:/mvnRepo"
+//	}
+//}
+
+android {
+	compileSdkVersion 26
+	buildToolsVersion "26.0.1"
+
+	defaultConfig {
+		minSdkVersion 21
+		targetSdkVersion 26
+		versionCode 1
+		versionName "1.0"
+
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+	}
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+}
+
+dependencies {
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+	androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	})
+	compile 'com.android.support:appcompat-v7:26.+'
+	testCompile 'junit:junit:4.12'
+//	compile 'com.sun.android:myEventBusLib:1.0.0'
+}
+
+//uploadArchives{
+//	repositories {
+//		mavenDeployer {
+//			repository(url: "file://D:/mvnRepo")   //指定的发布的磁盘路径
+//			pom.groupId = 'com.sun.android'
+//			pom.artifactId = 'myEventBusLib'
+//			pom.version = '1.0.0'
+//		}
+//	}
+//}
+
+//uploadArchives {
+//	configuration = configurations.archives
+//	repositories.mavenDeployer {
+//		beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment)
+//		}
+//		repository(url: 'http://192.168.1.12:8081/nexus/content/repositories/snapshots/') {
+//			authentication(userName: "admin",password: "admin123")
+//		}
+//		pom.project {
+//			// name 'library-utils'
+//			packaging 'aar'
+//			url 'http://192.168.1.12:8081/nexus/content/repositories/snapshots/'
+//			groupId "test"
+//			artifactId "utils"
+//			version "1.0.0-SNAPSHOT"
+//		}
+//	}
+//}
+
+uploadArchives {
+	configuration = configurations.archives
+	repositories.mavenDeployer {
+		beforeDeployment {MavenDeployment deployment -> signing.signPom(deployment)}
+		repository(url: 'http://127.0.0.1:8081/nexus/content/repositories/snapshots/') {//仓库地址
+			authentication(userName: "admin",//用户名
+					password: "admin123")//密码
+		}
+//		repository(url: 'http://127.0.0.1:8081/nexus/content/repositories/sun/') {//仓库地址
+//			authentication(userName: "admin",//用户名
+//					password: "admin123")//密码
+//		}
+		pom.project {
+			// name 'library-utils'
+			packaging 'aar'
+			url 'http://127.0.0.1:8081/nexus/content/repositories/snapshots/'
+//			url 'http://127.0.0.1:8081/nexus/content/repositories/sun/'
+			groupId "com.sun"
+			artifactId "myEventBusLib"
+			version "1.0.0-SNAPSHOT"
+//			version "1.0.0"
+		}
+	}
+}
+
+//pom.project {
+//	name 'juude-library'
+//	packaging 'aar'
+//	description 'none'
+//	url 'http://127.0.0.1:8081/nexus/content/repositories/juude-id/'//仓库地址
+//	groupId "net.juude.droidviews"
+//	artifactId rootProject.name //LibA
+//	version android.defaultConfig.versionName
+//}
+
